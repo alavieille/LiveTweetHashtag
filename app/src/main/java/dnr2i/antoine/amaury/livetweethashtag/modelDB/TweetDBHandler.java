@@ -1,9 +1,12 @@
-package dnr2i.antoine.amaury.livetweethashtag.tweetDB;
+package dnr2i.antoine.amaury.livetweethashtag.modelDB;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+
+import dnr2i.antoine.amaury.livetweethashtag.model.Tweet;
 
 /**
  * Class for Manage Tweet into SQLite Database
@@ -11,10 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class TweetDBHandler {
 
-    /**
-     * Database name
-     */
-    private static final String DB_NAME = "hashtag.db";
+
 
     /**
      * Database version
@@ -37,42 +37,57 @@ public class TweetDBHandler {
     public static final String COL_CONTENT = "content";
 
 
+    public static final String COL_PSEUDO = "pseudo";
+
+    public static final String COL_HASHTAG = "hashtag";
+
+
+
+
     /**
      * Instance of TweetDBOpen
      */
-    private TweetDBOpen tweetDBOpen;
+    private HashtagDBOpen tweetDBOpen;
 
     /**
      * Build TweetDBHandler
      * @param context
      */
     public TweetDBHandler(Context context) {
-        tweetDBOpen = new TweetDBOpen(context,DB_NAME,null,DB_VERSION);
+        tweetDBOpen = new HashtagDBOpen(context,null,DB_VERSION);
     }
 
     /**
      * Find all tweet
      * @return Cursor
      */
-    public Cursor findAll(){
+   /* public Cursor findAll(){
         String[] col = new String[] {COL_ID, COL_CONTENT};
         SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME,col,null,null,null,null,null);
         return cursor;
-    }
+    }*/
 
     /**
      * Add tweet
-     * @param content tweet's content
+     * @param tweet tweet's content
      */
-    public void addMessage(String content){
+    public void addTweet(Tweet tweet){
         ContentValues valeurs = new ContentValues();
-        valeurs.put(COL_CONTENT,content);
+        valeurs.put(COL_CONTENT,tweet.getContent());
+        valeurs.put(COL_PSEUDO,tweet.getContent());
+        valeurs.put(COL_HASHTAG,tweet.getHashtag());
         SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
         db.insert(TABLE_NAME,null,valeurs);
     }
 
-
-
-
+    /**
+     * Add twwets
+     * @param tweets array of tweets
+     */
+    public void addTweets(ArrayList<Tweet> tweets) {
+        for (Tweet tweet : tweets){
+            this.addTweet(tweet);
+        }
+    }
 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import dnr2i.antoine.amaury.livetweethashtag.dummy.DummyContent;
 import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
 import dnr2i.antoine.amaury.livetweethashtag.model.HashtagsAdapter;
-import dnr2i.antoine.amaury.livetweethashtag.tweetDB.HashtagDBHandler;
+import dnr2i.antoine.amaury.livetweethashtag.modelDB.HashtagDBHandler;
 
 /**
  * A list fragment representing a list of Tweet. This fragment
@@ -81,7 +81,13 @@ public class HashtagListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadListView();
+       // testTwitter();
     }
+
+
+//    public void testTwitter(){
+//        HashtagSearch.searchHashtag("DNR2I");
+//    }
 
     /**
      * Charge la liste des hastags

@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import dnr2i.antoine.amaury.livetweethashtag.tweetDB.HashtagDBHandler;
+import dnr2i.antoine.amaury.livetweethashtag.modelDB.HashtagDBHandler;
 
 
 /**
@@ -105,9 +105,13 @@ implements HashtagListFragment.Callbacks
     }
 
     private void openAddHashtag(){
-        AddHashtagDialog newFragment = AddHashtagDialog.newInstance(
-        R.string.button_add_hashtag);
-        newFragment.show(getSupportFragmentManager(), "dialog");
+
+      // new TwitterManager(this).execute("DNR2I");
+
+
+       AddHashtagDialog newFragment = AddHashtagDialog.newInstance(
+       R.string.button_add_hashtag);
+       newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     public void addHashtag(String hashtag){

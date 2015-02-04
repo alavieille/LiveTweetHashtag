@@ -1,4 +1,4 @@
-package dnr2i.antoine.amaury.livetweethashtag.tweetDB;
+package dnr2i.antoine.amaury.livetweethashtag.modelDB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,10 +15,7 @@ import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
  */
 public class HashtagDBHandler {
 
-    /**
-     * Database name
-     */
-    private static final String DB_NAME = "hashtag.db";
+
 
     /**
      * Database version
@@ -50,7 +47,7 @@ public class HashtagDBHandler {
      * @param context
      */
     public HashtagDBHandler(Context context) {
-        hashtagDBOpen = new HashtagDBOpen(context,DB_NAME,null,DB_VERSION);
+        hashtagDBOpen = new HashtagDBOpen(context,null,DB_VERSION);
     }
 
     /**
