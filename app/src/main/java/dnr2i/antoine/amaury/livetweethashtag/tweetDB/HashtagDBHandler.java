@@ -5,6 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
+import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
+
 /**
  * Class for Manage Hashtag into SQLite Database
  * Created by amaury on 30/01/15.
@@ -51,13 +55,26 @@ public class HashtagDBHandler {
 
     /**
      * Find all hashtag
-     * @return Cursor
+     * @return ArrayList<Hashtag>
      */
-    public Cursor findAll(){
+    public ArrayList<Hashtag> findAll(){
         String[] col = new String[] {COL_ID, COL_HASHTAG};
         SQLiteDatabase db = hashtagDBOpen.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME,col,null,null,null,null,null);
-        return cursor;
+        ArrayList<Hashtag> hashtags = new ArrayList<Hashtag>();
+        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            // The Cursor is now set to the right position
+            Hashtag hashtag = new Hashtag(cursor.getInt(cursor.getColumnIndex(COL_ID)),cursor.getString(cursor.getColumnIndex(COL_HASHTAG)));
+            hashtags.add(hashtag);
+        }
+
+
+        return hashtags;
+    }
+
+    public void deleteMessage(int id){
+        SQLiteDatabase db = hashtagDBOpen.getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+COL_ID+"="+id);
     }
 
     /**

@@ -1,14 +1,21 @@
 package dnr2i.antoine.amaury.livetweethashtag;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.ListFragment;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 
 import dnr2i.antoine.amaury.livetweethashtag.dummy.DummyContent;
+import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
+import dnr2i.antoine.amaury.livetweethashtag.model.HashtagsAdapter;
+import dnr2i.antoine.amaury.livetweethashtag.tweetDB.HashtagDBHandler;
 
 /**
  * A list fragment representing a list of Tweet. This fragment
@@ -37,6 +44,9 @@ public class HashtagListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+
+    private HashtagDBHandler db;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -70,14 +80,32 @@ public class HashtagListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        loadListView();
     }
+
+    /**
+     * Charge la liste des hastags
+     */
+    public void loadListView(){
+        db = new HashtagDBHandler(this.getActivity());
+
+        ArrayList<Hashtag> hashtags = db.findAll();
+
+        HashtagsAdapter adapter = new HashtagsAdapter(this.getActivity(),android.R.layout.simple_list_item_1,hashtags);
+
+      /*  String[] from = new String[] {"hashtag"};
+        int[]  to = new int[] {android.R.id.text1};*/
+
+        //SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),android.R.layout.simple_list_item_1,cursor, from, to,0);
+
+
+        setListAdapter(adapter);
+    }
+
+
+
+
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -88,6 +116,8 @@ public class HashtagListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+        registerForContextMenu(getListView());
+
     }
 
     @Override
@@ -148,5 +178,36 @@ public class HashtagListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_hashtag_item, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        // Handle item selection
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_delete_hashtag:
+                System.out.println(info.position);
+                Hashtag hashtag = (Hashtag) getListView().getAdapter().getItem(info.position);
+                db.deleteMessage(hashtag.getId());
+                this.loadListView();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void deleteHashTag(){
+
     }
 }

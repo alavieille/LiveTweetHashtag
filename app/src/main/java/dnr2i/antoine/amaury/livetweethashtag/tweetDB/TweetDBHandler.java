@@ -14,7 +14,7 @@ public class TweetDBHandler {
     /**
      * Database name
      */
-    private static final String DB_NAME = "tweet.db";
+    private static final String DB_NAME = "hashtag.db";
 
     /**
      * Database version

@@ -59,4 +59,6 @@ public class HashtagDetailFragment extends Fragment {
 
         return rootView;
     }
+
+
 }

@@ -1,8 +1,15 @@
 package dnr2i.antoine.amaury.livetweethashtag;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import dnr2i.antoine.amaury.livetweethashtag.tweetDB.HashtagDBHandler;
 
 
 /**
@@ -21,8 +28,9 @@ import android.app.Activity;
  * {@link HashtagListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class HashtagListActivity extends Activity
-        implements HashtagListFragment.Callbacks {
+public class HashtagListActivity extends FragmentActivity
+implements HashtagListFragment.Callbacks
+{
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -34,12 +42,8 @@ public class HashtagListActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hashtag_list);
-
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         if (findViewById(R.id.hashtag_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
             mTwoPane = true;
 
             // In two-pane mode, list items should be given the
@@ -48,8 +52,6 @@ public class HashtagListActivity extends Activity
                     .findFragmentById(R.id.hashtag_list))
                     .setActivateOnItemClick(true);
         }
-
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
     /**
@@ -78,4 +80,41 @@ public class HashtagListActivity extends Activity
             startActivity(detailIntent);
         }
     }
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_hashtag_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_add_hashtag:
+                openAddHashtag();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openAddHashtag(){
+        AddHashtagDialog newFragment = AddHashtagDialog.newInstance(
+        R.string.button_add_hashtag);
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
+    public void addHashtag(String hashtag){
+        new HashtagDBHandler(this).addMessage(hashtag);
+        Toast.makeText(this, "Hashtag ajouté", Toast.LENGTH_SHORT).show();
+        ((HashtagListFragment) getFragmentManager().findFragmentById(R.id.hashtag_list)).loadListView();
+
+    }
+
 }
