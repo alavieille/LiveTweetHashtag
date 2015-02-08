@@ -7,5 +7,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button_valid">Ajouter</string>
     <string name="button_delete_hashtag">Supprimer le hashtag</string>
+    <string name="update_tweet">Mettre à jour</string>
+    <string name="button_dismiss">Annuler</string>
+    <string name="title_update_dialog">Mettre à jour la liste des tweets</string>
+    <string name="button_ok">Oui</string>
+    <string name="toast_add_hashtagg">Hashtag ajouté</string>
+    <string name="load_update">Mise à jour en cours ...</string>
+    <string name="setting">Préférences</string>
 
 </resources>

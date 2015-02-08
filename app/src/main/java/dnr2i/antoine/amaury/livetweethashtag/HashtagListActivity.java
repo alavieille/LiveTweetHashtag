@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import dnr2i.antoine.amaury.livetweethashtag.dialog.AddHashtagDialog;
+import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
 import dnr2i.antoine.amaury.livetweethashtag.modelDB.HashtagDBHandler;
 
 
@@ -59,13 +61,16 @@ implements HashtagListFragment.Callbacks
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(Hashtag hashtag) {
+
         if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
+
             Bundle arguments = new Bundle();
-            arguments.putString(HashtagDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(HashtagDetailFragment.HASHTAG_ID, String.valueOf(hashtag.getId()));
+            arguments.putString(HashtagDetailFragment.HASHTAG_LABEL, String.valueOf(hashtag.getLabel()));
+            System.out.println(String.valueOf(arguments.size()));
+            System.out.println(arguments.toString());
+
             HashtagDetailFragment fragment = new HashtagDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -73,10 +78,9 @@ implements HashtagListFragment.Callbacks
                     .commit();
 
         } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
             Intent detailIntent = new Intent(this, HashtagDetailActivity.class);
-            detailIntent.putExtra(HashtagDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(HashtagDetailFragment.HASHTAG_ID, String.valueOf(hashtag.getId()));
+            detailIntent.putExtra(HashtagDetailFragment.HASHTAG_LABEL, String.valueOf(hashtag.getLabel()));
             startActivity(detailIntent);
         }
     }
@@ -86,7 +90,6 @@ implements HashtagListFragment.Callbacks
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_hashtag_detail, menu);
         return super.onCreateOptionsMenu(menu);
@@ -99,24 +102,35 @@ implements HashtagListFragment.Callbacks
             case R.id.action_add_hashtag:
                 openAddHashtag();
                 return true;
+            case R.id.setting:
+                SettingsActivity activity = new SettingsActivity();
+                //startActivity(activity);
+                Intent intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * Open dialog for add new hashtag
+     */
     private void openAddHashtag(){
-
-      // new TwitterManager(this).execute("DNR2I");
-
 
        AddHashtagDialog newFragment = AddHashtagDialog.newInstance(
        R.string.button_add_hashtag);
        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
+    /**
+     * add hashtag and refresh list
+     * @param hashtag label of hashtag
+     */
     public void addHashtag(String hashtag){
-        new HashtagDBHandler(this).addMessage(hashtag);
-        Toast.makeText(this, "Hashtag ajouté", Toast.LENGTH_SHORT).show();
+        new HashtagDBHandler(this).addHashtag(hashtag);
+        Toast.makeText(this, R.string.toast_add_hashtagg, Toast.LENGTH_SHORT).show();
         ((HashtagListFragment) getFragmentManager().findFragmentById(R.id.hashtag_list)).loadListView();
 
     }

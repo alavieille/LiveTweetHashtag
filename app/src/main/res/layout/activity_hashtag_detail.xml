@@ -2,3 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/hashtag_detail_container"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".HashtagDetailActivity" tools:ignore="MergeRootFrame" />
+
+<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" android:id="@+id/hashtag_detail_container"
+android:name="dnr2i.antoine.amaury.livetweethashtag.HashtagDetailFragment"
+android:layout_width="match_parent" android:layout_height="match_parent"
+android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+tools:context=".HashtagDetailActivity" tools:layout="@android:layout/simple_list_item_2" />-->

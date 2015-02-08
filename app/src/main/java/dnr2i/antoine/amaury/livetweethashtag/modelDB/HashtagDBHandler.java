@@ -69,7 +69,11 @@ public class HashtagDBHandler {
         return hashtags;
     }
 
-    public void deleteMessage(int id){
+    /**
+     * Delete a hashtag
+     * @param id hashtag's id
+     */
+    public void deleteHashtag(int id){
         SQLiteDatabase db = hashtagDBOpen.getWritableDatabase();
         db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+COL_ID+"="+id);
     }
@@ -78,13 +82,12 @@ public class HashtagDBHandler {
      * Add hashtag
      * @param hashtag hashtag's name
      */
-    public void addMessage(String hashtag){
+    public void addHashtag(String hashtag){
         ContentValues valeurs = new ContentValues();
         valeurs.put(COL_HASHTAG,hashtag);
         SQLiteDatabase db = hashtagDBOpen.getWritableDatabase();
         db.insert(TABLE_NAME,null,valeurs);
     }
-
 
 
 

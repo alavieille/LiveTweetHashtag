@@ -10,7 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by amaury on 04/02/15.
+ * Un adpater pour afficher la liste des hashtags dans le layout
+ * Created by amaury and antoine on 04/02/15.
  */
 public class HashtagsAdapter extends ArrayAdapter<Hashtag> {
 

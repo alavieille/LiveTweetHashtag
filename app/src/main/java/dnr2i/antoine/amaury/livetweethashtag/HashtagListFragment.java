@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import dnr2i.antoine.amaury.livetweethashtag.dummy.DummyContent;
 import dnr2i.antoine.amaury.livetweethashtag.model.Hashtag;
 import dnr2i.antoine.amaury.livetweethashtag.model.HashtagsAdapter;
 import dnr2i.antoine.amaury.livetweethashtag.modelDB.HashtagDBHandler;
@@ -38,7 +37,7 @@ public class HashtagListFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private Callbacks mCallbacks = hashtagCallbacks;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -46,6 +45,9 @@ public class HashtagListFragment extends ListFragment {
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
 
+    /**
+     * Instance of HashtagDBHandler
+     */
     private HashtagDBHandler db;
 
     /**
@@ -57,16 +59,16 @@ public class HashtagListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(Hashtag hashtag);
     }
 
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static Callbacks hashtagCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(Hashtag hashtag) {
         }
     };
 
@@ -81,36 +83,17 @@ public class HashtagListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadListView();
-       // testTwitter();
     }
 
-
-//    public void testTwitter(){
-//        HashtagSearch.searchHashtag("DNR2I");
-//    }
-
     /**
-     * Charge la liste des hastags
+     * Load list of hashtags
      */
     public void loadListView(){
         db = new HashtagDBHandler(this.getActivity());
-
         ArrayList<Hashtag> hashtags = db.findAll();
-
         HashtagsAdapter adapter = new HashtagsAdapter(this.getActivity(),android.R.layout.simple_list_item_1,hashtags);
-
-      /*  String[] from = new String[] {"hashtag"};
-        int[]  to = new int[] {android.R.id.text1};*/
-
-        //SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),android.R.layout.simple_list_item_1,cursor, from, to,0);
-
-
         setListAdapter(adapter);
     }
-
-
-
-
 
 
     @Override
@@ -143,16 +126,14 @@ public class HashtagListFragment extends ListFragment {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
+        mCallbacks = hashtagCallbacks;
     }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        Hashtag hashtag = (Hashtag) getListView().getAdapter().getItem(position);
+        mCallbacks.onItemSelected(hashtag);
     }
 
     @Override
@@ -204,7 +185,7 @@ public class HashtagListFragment extends ListFragment {
             case R.id.action_delete_hashtag:
                 System.out.println(info.position);
                 Hashtag hashtag = (Hashtag) getListView().getAdapter().getItem(info.position);
-                db.deleteMessage(hashtag.getId());
+                db.deleteHashtag(hashtag.getId());
                 this.loadListView();
 
                 return true;
@@ -213,7 +194,5 @@ public class HashtagListFragment extends ListFragment {
         }
     }
 
-    public void deleteHashTag(){
 
-    }
 }

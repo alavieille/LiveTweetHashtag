@@ -2,6 +2,7 @@ package dnr2i.antoine.amaury.livetweethashtag.modelDB;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -36,10 +37,9 @@ public class TweetDBHandler {
      */
     public static final String COL_CONTENT = "content";
 
-
     public static final String COL_PSEUDO = "pseudo";
 
-    public static final String COL_HASHTAG = "hashtag";
+    public static final String COL_HASHTAG = "hashtaId";
 
 
 
@@ -57,16 +57,6 @@ public class TweetDBHandler {
         tweetDBOpen = new HashtagDBOpen(context,null,DB_VERSION);
     }
 
-    /**
-     * Find all tweet
-     * @return Cursor
-     */
-   /* public Cursor findAll(){
-        String[] col = new String[] {COL_ID, COL_CONTENT};
-        SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_NAME,col,null,null,null,null,null);
-        return cursor;
-    }*/
 
     /**
      * Add tweet
@@ -75,7 +65,7 @@ public class TweetDBHandler {
     public void addTweet(Tweet tweet){
         ContentValues valeurs = new ContentValues();
         valeurs.put(COL_CONTENT,tweet.getContent());
-        valeurs.put(COL_PSEUDO,tweet.getContent());
+        valeurs.put(COL_PSEUDO,tweet.getPseudo());
         valeurs.put(COL_HASHTAG,tweet.getHashtag());
         SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
         db.insert(TABLE_NAME,null,valeurs);
@@ -89,5 +79,31 @@ public class TweetDBHandler {
         for (Tweet tweet : tweets){
             this.addTweet(tweet);
         }
+    }
+
+
+    public void removeTweets(String id){
+        SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+COL_HASHTAG+"="+id);
+    }
+
+    /**
+     * Find all tweet according hashtag id
+     * @param id
+     */
+    public ArrayList<Tweet> findByHashtagId(String id){
+
+        String[] col = new String[] {COL_ID, COL_CONTENT,COL_HASHTAG,COL_PSEUDO};
+        SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,col,COL_HASHTAG+"=?",new String[]{id},null,null,null);
+        ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            String pseudo = cursor.getString(cursor.getColumnIndex(COL_PSEUDO));
+            String content = cursor.getString(cursor.getColumnIndex(COL_CONTENT));
+            String hashtagId = cursor.getString(cursor.getColumnIndex(COL_HASHTAG));
+            String idTweet = cursor.getString(cursor.getColumnIndex(COL_ID));
+            tweets.add(new Tweet(pseudo,content,hashtagId,idTweet));
+        }
+        return tweets;
     }
 }

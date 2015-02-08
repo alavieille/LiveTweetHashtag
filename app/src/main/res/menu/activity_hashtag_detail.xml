@@ -4,4 +4,10 @@
           android:icon="@drawable/ic_action_new"
           android:title="@string/button_add_hashtag"
           android:showAsAction="ifRoom"  />
+
+    <item android:id="@+id/setting"
+          android:icon="@drawable/ic_action_new"
+          android:title="@string/setting"
+          android:orderInCategory="100" android:showAsAction="ifRoom"
+           />
 </menu>

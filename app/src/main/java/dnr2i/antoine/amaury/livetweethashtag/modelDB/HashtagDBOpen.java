@@ -5,20 +5,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
+ * Class for manage database
  * Created by amaury on 30/01/15.
  */
 public class HashtagDBOpen extends SQLiteOpenHelper{
 
-    public static final String DB_NAME = "twitter3.db";
-    /**
-     * Name database
-     */
-    private String nameDB;
-
-
+    public static final String DB_NAME = "twitter4.db";
 
     /**
-     * Request for create database
+     * Request for create database hashtag
      */
     private final String DB_CREATE_HASHTAG = "create table "+HashtagDBHandler.TABLE_NAME
             + "( "+HashtagDBHandler.COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT ,"
@@ -26,13 +21,14 @@ public class HashtagDBOpen extends SQLiteOpenHelper{
 
 
     /**
-     * Request for create database
+     * Request for create database tweet
      */
     private final String DB_CREATE_TWEET = "create table "+TweetDBHandler.TABLE_NAME
             + "( "+TweetDBHandler.COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT ,"
             +  TweetDBHandler.COL_CONTENT+" string, "
-            +  TweetDBHandler.COL_HASHTAG+" string, "
+            +  TweetDBHandler.COL_HASHTAG+" INTEGER, "
             +  TweetDBHandler.COL_PSEUDO+" string);";
+
 
 
     public HashtagDBOpen(Context context, SQLiteDatabase.CursorFactory factory, int version) {
@@ -49,7 +45,7 @@ public class HashtagDBOpen extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + this.nameDB);
+        db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
         onCreate(db);
     }
 }
