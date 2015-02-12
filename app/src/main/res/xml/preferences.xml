@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="pref_key_auto_delete"
-        android:summary="test"
-        android:title="test"
-        android:defaultValue="false"/>
+    <ListPreference
+        android:key="sync_tweet"
+        android:title="@string/pref_synchronisation_tweet"
+        android:defaultValue="2"
+        android:summary="@string/pref_sync_summ"
+        android:entries="@array/pref_example_list_titles"
+        android:entryValues="@array/pref_example_list_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
 </PreferenceScreen>

@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dnr2i.antoine.amaury.livetweethashtag.HashtagDetailFragment;
@@ -46,6 +48,7 @@ public class TwitterSearchManager extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
 
         try {
+
             ArrayList<Tweet> tweets = searchTweetHashtag(this.queryHashtag);
             dbTweet.addTweets(tweets);
         } catch (TwitterException e) {
@@ -68,8 +71,11 @@ public class TwitterSearchManager extends AsyncTask<Void,Void,Void> {
         List<twitter4j.Status> tweets = result.getTweets();
 
         for (twitter4j.Status tweet : tweets) {
-
-            listTweets.add(new Tweet(tweet.getUser().getName(),tweet.getText(),this.idHashtag));
+            Date date = tweet.getCreatedAt();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String reportDate = df.format(date);
+            String picture = tweet.getUser().getBiggerProfileImageURL();
+            listTweets.add(new Tweet(tweet.getUser().getName(),tweet.getText(),reportDate,picture,this.idHashtag));
 
         }
         return listTweets;

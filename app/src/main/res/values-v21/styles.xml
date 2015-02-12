@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/red</item>
+        <item name="android:colorPrimaryDark">@color/red_dark</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:navigationBarColor">@color/red_dark</item>
     </style>
+
+    <color name="red">#e74c3c</color>
+    <color name="red_dark">#c0392b</color>
+    <color name="white">#ecf0f1</color>
+    <color name="dark_blue">#2c3e50</color>
 </resources>

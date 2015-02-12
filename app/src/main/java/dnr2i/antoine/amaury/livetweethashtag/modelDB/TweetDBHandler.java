@@ -33,13 +33,33 @@ public class TweetDBHandler {
     public static final String COL_ID = "_id";
 
     /**
-     * Colum twwet name
+     * Colum tweet content
      */
     public static final String COL_CONTENT = "content";
 
+    /**
+     * Colum twwet name
+     */
     public static final String COL_PSEUDO = "pseudo";
 
+
+    /**
+     * Colum hashtag id
+     */
     public static final String COL_HASHTAG = "hashtaId";
+
+
+    /**
+     * Colum tweet date
+     */
+    public static final String COL_DATE = "date";
+
+
+    /**
+     * Colum tweet user's picture
+     */
+    public static final String COL_PICTURE= "picture";
+
 
 
 
@@ -66,6 +86,8 @@ public class TweetDBHandler {
         ContentValues valeurs = new ContentValues();
         valeurs.put(COL_CONTENT,tweet.getContent());
         valeurs.put(COL_PSEUDO,tweet.getPseudo());
+        valeurs.put(COL_DATE,tweet.getDate());
+        valeurs.put(COL_PICTURE,tweet.getPicture());
         valeurs.put(COL_HASHTAG,tweet.getHashtag());
         SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
         db.insert(TABLE_NAME,null,valeurs);
@@ -93,7 +115,7 @@ public class TweetDBHandler {
      */
     public ArrayList<Tweet> findByHashtagId(String id){
 
-        String[] col = new String[] {COL_ID, COL_CONTENT,COL_HASHTAG,COL_PSEUDO};
+        String[] col = new String[] {COL_ID, COL_CONTENT,COL_DATE,COL_PICTURE,COL_HASHTAG,COL_PSEUDO};
         SQLiteDatabase db = tweetDBOpen.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME,col,COL_HASHTAG+"=?",new String[]{id},null,null,null);
         ArrayList<Tweet> tweets = new ArrayList<Tweet>();
@@ -102,7 +124,9 @@ public class TweetDBHandler {
             String content = cursor.getString(cursor.getColumnIndex(COL_CONTENT));
             String hashtagId = cursor.getString(cursor.getColumnIndex(COL_HASHTAG));
             String idTweet = cursor.getString(cursor.getColumnIndex(COL_ID));
-            tweets.add(new Tweet(pseudo,content,hashtagId,idTweet));
+            String date = cursor.getString(cursor.getColumnIndex(COL_DATE));
+            String picture = cursor.getString(cursor.getColumnIndex(COL_PICTURE));
+            tweets.add(new Tweet(pseudo,content,date,picture,hashtagId,idTweet));
         }
         return tweets;
     }

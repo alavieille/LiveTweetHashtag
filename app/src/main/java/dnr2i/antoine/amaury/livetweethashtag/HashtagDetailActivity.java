@@ -68,9 +68,12 @@ public class HashtagDetailActivity extends FragmentActivity {
             case android.R.id.home: // return home
                 navigateUpTo(new Intent(this, HashtagListActivity.class));
                 return true;
-            case R.id.action_update_tweet: // refresh list tweet
-                HashtagDetailFragment fragment =  ((HashtagDetailFragment) getFragmentManager().findFragmentById(R.id.hashtag_detail_container));
-                fragment.updateTweet();
+            case R.id.setting:
+                SettingsActivity activity = new SettingsActivity();
+                //startActivity(activity);
+                Intent intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

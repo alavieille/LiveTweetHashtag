@@ -37,6 +37,7 @@ public class UpdateTweetDialog extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 HashtagDetailFragment fragment =  ((HashtagDetailFragment) getFragmentManager().findFragmentById(R.id.hashtag_detail_container));
+
                                 fragment.updateTweet();
                             }
                         }

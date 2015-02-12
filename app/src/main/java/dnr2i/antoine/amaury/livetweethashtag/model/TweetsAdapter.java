@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import dnr2i.antoine.amaury.livetweethashtag.R;
 
 /**
  * Un adpater pour afficher la liste des tweets dans le layout
@@ -24,16 +27,22 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
         Tweet tweet = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_layout, parent, false);
         }
 
-        TextView text1 = (TextView) convertView.findViewById(android.R.id.text1);
-        TextView text2 = (TextView) convertView.findViewById(android.R.id.text2);
-        text1.setText(tweet.getPseudo());
-        text2.setText(tweet.getContent());
+        TextView userText = (TextView) convertView.findViewById(R.id.tweet_user);
+        TextView contentText = (TextView) convertView.findViewById(R.id.tweet_content);
+        TextView dateText = (TextView) convertView.findViewById(R.id.tweet_date);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.tweet_picture);
 
+        userText.setText(tweet.getPseudo());
+        dateText.setText(tweet.getDate());
+        contentText.setText(tweet.getContent());
+        ImageLoadTask loadPicture = new ImageLoadTask(tweet.getPicture(),imageView);
+        loadPicture.execute();
         return convertView;
     }
+
 
 
 }

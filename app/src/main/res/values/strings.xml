@@ -14,5 +14,18 @@
     <string name="toast_add_hashtagg">Hashtag ajouté</string>
     <string name="load_update">Mise à jour en cours ...</string>
     <string name="setting">Préférences</string>
-
+    <string name="pref_synchronisation_tweet">Synchronisation des tweets</string>
+    <string name="pref_sync_summ">Modifier le type de synchronisation des tweets</string>
+    <string name="none_tweet">Aucun tweet</string>
+    <string name="error_update">Impossible de mettre à jour</string>
+    <string-array name="pref_example_list_titles">
+        <item>Uniquement en Wifi</item>
+        <item>Toujours demander</item>
+        <item>Jamais</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>2</item>
+        <item>-1</item>
+    </string-array>
 </resources>

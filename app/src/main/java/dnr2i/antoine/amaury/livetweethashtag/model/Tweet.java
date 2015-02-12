@@ -17,6 +17,16 @@ public class Tweet {
     private String content;
 
     /**
+     * Date du string
+     */
+    private String date;
+
+    /**
+     * Image de l'utilisateur qui a posté le tweet
+     */
+    private String picture;
+
+    /**
      * Id du hashtag correpondant a ce tweet
      * Relation many to one
      */
@@ -32,11 +42,15 @@ public class Tweet {
      * Créé une nouvelle instance de tweet
      * @param pseudo Pseudo du l'utlisateur
      * @param content Contenue du tweet
+     * @param date Date du tweet
+     * @param picture url de l'image de l'utilisateur
      * @param hashtagId Id du hashtag correpondant
      */
-    public Tweet(String pseudo, String content, String hashtagId) {
+    public Tweet(String pseudo, String content, String date, String picture, String hashtagId) {
         this.pseudo = pseudo;
         this.content = content;
+        this.date = date;
+        this.picture = picture;
         this.hashtagId = hashtagId;
     }
 
@@ -44,15 +58,22 @@ public class Tweet {
      * Créé une nouvelle instance de tweet
      * @param pseudo Pseudo du l'utlisateur
      * @param content Contenue du tweet
+     * @param date Date du tweet
+     * @param picture url de l'image de l'utilisateur
      * @param hashtagId Id du hashtag correpondant
      * @param id id du tweet
      */
-    public Tweet(String pseudo, String content, String hashtagId, String id) {
+    public Tweet(String pseudo, String content, String date, String picture, String hashtagId, String id) {
         this.pseudo = pseudo;
         this.content = content;
+        this.date = date;
+        this.picture = picture;
         this.hashtagId = hashtagId;
         this.id = id;
     }
+
+
+
 
     /**
      * Retourne l'id du hashtag
@@ -117,5 +138,37 @@ public class Tweet {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    /**
+     * Retourne la date du tweet
+     * @return String la date du tweet
+     */
+    public String getDate() {
+        return date;
+    }
+
+    /**
+     * Change la date du tweet
+     * @param date date du tweet
+     */
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    /**
+     * Retourne l'url de l'image de l'utilisateur
+     * @return url de l'image
+     */
+    public String getPicture() {
+        return picture;
+    }
+
+    /**
+     * Change l'url de l'image de l'utilisateur
+     * @param picture url de l'image
+     */
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

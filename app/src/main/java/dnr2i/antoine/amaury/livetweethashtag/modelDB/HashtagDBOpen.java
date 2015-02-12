@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class HashtagDBOpen extends SQLiteOpenHelper{
 
-    public static final String DB_NAME = "twitter4.db";
+    public static final String DB_NAME = "twitter5.db";
 
     /**
      * Request for create database hashtag
@@ -26,6 +26,8 @@ public class HashtagDBOpen extends SQLiteOpenHelper{
     private final String DB_CREATE_TWEET = "create table "+TweetDBHandler.TABLE_NAME
             + "( "+TweetDBHandler.COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT ,"
             +  TweetDBHandler.COL_CONTENT+" string, "
+            +  TweetDBHandler.COL_DATE+" date, "
+            +  TweetDBHandler.COL_PICTURE+" string, "
             +  TweetDBHandler.COL_HASHTAG+" INTEGER, "
             +  TweetDBHandler.COL_PSEUDO+" string);";
 
